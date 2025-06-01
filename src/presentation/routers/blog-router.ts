@@ -49,7 +49,6 @@ export default function BlogsRouter(
     // create blog
     router.post('/create', async (req: Request, res: Response) => {
         try {
-            let user_email = (req as IGetAuthTokenRequest).authEmail;
             let user_id = (req as IGetAuthTokenRequest).authUserId;
             console.log(user_id);
             const new_account = await createBlogUseCase.execute(req.body, user_id);
