@@ -1,7 +1,7 @@
 version: '3'
 services:
-  triviabot_back:
-    container_name: 'triviabot_back'
+  umb_back:
+    container_name: 'umb_back'
     build:
       context: .
       dockerfile: Dockerfile

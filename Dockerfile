@@ -2,7 +2,7 @@
 FROM node:18.20.0
 
 # Establece el directorio de trabajo en la carpeta de la aplicación
-WORKDIR /triviabot_backend
+WORKDIR /umb_backend
 
 # Borramos node_modules y package-lock.json antes de copiar el código
 RUN rm -rf node_modules package-lock.json

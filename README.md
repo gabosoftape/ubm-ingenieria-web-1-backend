@@ -1,6 +1,6 @@
-# Backend de Triviabot
+# Backend  Actividad Ingenieria WEB 1 - Ingenieria de Software. Universidad Manuela Beltran.
 
-Backend para triviabot desarrollado con Node.js, TypeScript, Express y PostgreSQL.
+Backend para Actividad Ingenieria WEB - Ingenieria de Software. Universidad Manuela Beltran con Node.js, TypeScript, Express y PostgreSQL.
 
 ## Requisitos previos
 
