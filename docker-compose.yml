@@ -1,0 +1,13 @@
+version: '3'
+services:
+  triviabot_back:
+    container_name: 'triviabot_back'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - '/triviabot_backend/node_modules'
+    ports:
+      - "4001:4001"
+

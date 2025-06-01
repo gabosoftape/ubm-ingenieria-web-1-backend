@@ -1,0 +1,1313 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Vigilancia - Porterias APP API.",
+    "version": "1.0.1",
+    "description": "Documentación de Vigilancias - Porterias API"
+  },
+  "paths": {
+    "/api/v1/accounts/create": {
+      "post": {
+        "summary": "Crea una nueva cuenta",
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cuenta creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponseModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "error fetching data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/update": {
+      "put": {
+        "summary": "Actualiza una cuenta existente",
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cuenta actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponseModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/delete/{account_id}": {
+      "delete": {
+        "summary": "Elimina una cuenta",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "account_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la cuenta a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cuenta eliminada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/all": {
+      "get": {
+        "summary": "Obtiene todas las cuentas",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de página para la paginación"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de elementos por página"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Campo por el cual ordenar los resultados"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Orden de clasificación (ascendente o descendente)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cuentas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "pageSize": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/verifyUser": {
+      "post": {
+        "summary": "Verifica un usuario por cuenta",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyUserByAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario verificado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyUserByAccountResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyUserByAccountResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/authToken": {
+      "get": {
+        "summary": "Verifica un token de autenticación",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token verificado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyAuthTokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token expirado o falta el encabezado de autorización",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/create": {
+      "post": {
+        "summary": "Crea un nuevo blog",
+        "tags": [
+          "Blogs"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBlogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Blog creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogResponseModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "error fetching data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/all": {
+      "get": {
+        "summary": "Obtiene todos los blogs",
+        "tags": [
+          "Blogs"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de página para la paginación"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de elementos por página"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Campo por el cual ordenar los resultados"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Orden de clasificación (ascendente o descendente)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de blogs obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "pageSize": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/update": {
+      "put": {
+        "summary": "Actualiza un blog existente",
+        "tags": [
+          "Blogs"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditBlogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Blog actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditBlogResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/delete/{blog_id}": {
+      "delete": {
+        "summary": "Elimina un blog",
+        "tags": [
+          "Blogs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "blog_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID del blog a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/create": {
+      "post": {
+        "summary": "Crea un nuevo usuario",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "error fetching data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/all": {
+      "get": {
+        "summary": "Obtiene todos los usarios",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de página para la paginación"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Número de elementos por página"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Campo por el cual ordenar los resultados"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Orden de clasificación (ascendente o descendente)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de usuarios obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "string"
+                    },
+                    "pageSize": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/update": {
+      "put": {
+        "summary": "Actualiza un usuario existente",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cuenta actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditUserResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/delete/{user_id}": {
+      "delete": {
+        "summary": "Elimina un usuario",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID del usuario a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cuenta eliminada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "VerifyUserByAccountRequest": {
+        "type": "object",
+        "required": [
+          "phone",
+          "account_id"
+        ],
+        "properties": {
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID de la cuenta asociada al usuario",
+            "format": "int64"
+          }
+        }
+      },
+      "VerifyUserByAccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Código de estado de la respuesta"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje descriptivo de la respuesta"
+          },
+          "token": {
+            "type": "string",
+            "nullable": true,
+            "description": "Token de autenticación (puede ser nulo)"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "token"
+        ]
+      },
+      "VerifyAuthTokenResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Código de estado de la respuesta"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje descriptivo de la respuesta"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserAttributes",
+            "nullable": true,
+            "description": "Atributos del usuario (puede ser nulo)"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
+      },
+      "UserAttributes": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "description": "Atributos del usuario"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "AccountRequestModel": {
+        "type": "object",
+        "required": [
+          "name",
+          "domain"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre de la cuenta"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Dominio asociado a la cuenta"
+          },
+          "parent_account_id": {
+            "type": "integer",
+            "description": "ID de la cuenta padre (opcional)"
+          }
+        }
+      },
+      "UpdateAccountRequestModel": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID de la cuenta a actualizar"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nuevo nombre de la cuenta (opcional)"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Nuevo dominio de la cuenta (opcional)"
+          },
+          "parent_account_id": {
+            "type": "integer",
+            "description": "Nuevo ID de la cuenta padre (opcional)"
+          }
+        }
+      },
+      "AccountResponseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID único de la cuenta"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre de la cuenta"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Dominio asociado a la cuenta"
+          },
+          "parent_account_id": {
+            "type": "integer",
+            "description": "ID de la cuenta padre (opcional)"
+          }
+        }
+      },
+      "BlogsRequestModel": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "identification",
+          "phone"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del usuario"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Correo electrónico del usuario"
+          },
+          "identification": {
+            "type": "string",
+            "description": "Número de identificación del usuario"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "Tipo de usuario",
+            "nullable": true
+          }
+        }
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "identification",
+          "phone",
+          "account_id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del usuario"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Correo electrónico del usuario"
+          },
+          "identification": {
+            "type": "string",
+            "description": "Número de identificación del usuario"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "Tipo de usuario",
+            "nullable": true
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID único de la cuenta"
+          }
+        }
+      },
+      "UserResponseModel": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "identification",
+          "phone"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del usuario"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Correo electrónico del usuario"
+          },
+          "identification": {
+            "type": "string",
+            "description": "Número de identificación del usuario"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "Tipo de usuario",
+            "nullable": true
+          }
+        }
+      },
+      "EditUserDto": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "identification",
+          "phone"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Correo electrónico del usuario"
+          },
+          "identification": {
+            "type": "string",
+            "description": "Número de identificación del usuario"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "Tipo de usuario",
+            "nullable": true
+          }
+        }
+      },
+      "sendMessageOtpRequestModel": {
+        "type": "object",
+        "required": [
+          "message",
+          "tpoa",
+          "recipient"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje OTP a enviar"
+          },
+          "tpoa": {
+            "type": "string",
+            "description": "TPOA (Transmission Path Originating Address)"
+          },
+          "recipient": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Recipient"
+            },
+            "description": "Lista de destinatarios del mensaje OTP"
+          }
+        }
+      },
+      "Recipient": {
+        "type": "object",
+        "required": [
+          "msisdn"
+        ],
+        "properties": {
+          "msisdn": {
+            "type": "string",
+            "description": "Número de teléfono móvil del destinatario (Mobile Station International Subscriber Directory Number)"
+          }
+        }
+      },
+      "OtpServiceRequest": {
+        "type": "object",
+        "required": [
+          "token",
+          "account_id",
+          "phone"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de autenticación"
+          },
+          "account_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID de la cuenta asociada"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          }
+        }
+      },
+      "VerifyOtpRequest": {
+        "type": "object",
+        "required": [
+          "otp",
+          "token"
+        ],
+        "properties": {
+          "otp": {
+            "type": "string",
+            "description": "Código OTP ingresado por el usuario"
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de autenticación"
+          }
+        }
+      },
+      "RecaptchaRequest": {
+        "type": "object",
+        "required": [
+          "tokenRecaptcha"
+        ],
+        "properties": {
+          "tokenRecaptcha": {
+            "type": "string",
+            "description": "Token de reCAPTCHA para verificación"
+          }
+        }
+      },
+      "UserRequestModel": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "identification",
+          "phone"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del usuario"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Correo electrónico del usuario"
+          },
+          "identification": {
+            "type": "string",
+            "description": "Número de identificación del usuario"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Número de teléfono del usuario"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "Tipo de usuario",
+            "nullable": true
+          }
+        }
+      },
+      "DefaultFilterCriteria": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "string",
+            "description": "Número de página para la paginación"
+          },
+          "pageSize": {
+            "type": "string",
+            "description": "Número de elementos por página"
+          }
+        }
+      },
+      "DefaultResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje de respuesta"
+          }
+        }
+      },
+      "IDefaultResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Numero de estado"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de respuesta"
+          }
+        }
+      },
+      "Paginated": {
+        "type": "object",
+        "required": [
+          "data",
+          "total"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GenericItem"
+            },
+            "description": "Array de elementos paginados"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "Número total de elementos disponibles"
+          }
+        }
+      },
+      "GenericItem": {
+        "type": "object",
+        "description": "Representa un elemento genérico. Reemplazar con el esquema específico cuando se use."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Operaciones relacionadas con cuentas"
+    },
+    {
+      "name": "Users",
+      "description": "Operaciones relacionadas con usuarios"
+    },
+    {
+      "name": "Auth",
+      "description": "Operaciones de autenticación"
+    },
+    {
+      "name": "SendOtp",
+      "description": "Operaciones relacionadas con OTP"
+    },
+    {
+      "name": "Blogs",
+      "description": "Operaciones relacionadas con Blogs"
+    }
+  ]
+}
