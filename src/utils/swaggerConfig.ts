@@ -5,9 +5,9 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Vigilancia - Porterias APP API.',
+            title: 'UMB Actividad 1 APP API.',
             version: '1.0.1',
-            description: 'Documentación de Vigilancias - Porterias API',
+            description: 'Documentación de Actividad 1 APP API',
         },
     },
     apis: [
