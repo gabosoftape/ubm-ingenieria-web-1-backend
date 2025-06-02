@@ -18,8 +18,8 @@ COPY .env .
 # Copia todos los archivos del proyecto al directorio de trabajo
 COPY . .
 
-# Expon el puerto 4001 en el contenedor
-EXPOSE 4001
+# Expon el puerto 4008 en el contenedor
+EXPOSE 4008
 
 # Comando para iniciar la aplicación
 CMD ["npm", "run", "dev"]

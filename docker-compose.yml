@@ -9,5 +9,5 @@ services:
     volumes:
       - '/triviabot_backend/node_modules'
     ports:
-      - "4001:4001"
+      - "4008:4008"
 
