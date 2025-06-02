@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - '/triviabot_backend/node_modules'
+      - '/umb_backend/node_modules'
     ports:
       - "4008:4008"
 
