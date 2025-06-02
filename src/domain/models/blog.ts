@@ -20,61 +20,43 @@ export interface IBlogsResponse<t> {
  *       required:
  *         - id
  *         - name
- *         - email
- *         - identification
- *         - phone
+ *         - description
+ *         - text
  *       properties:
  *         id:
  *           type: string
- *           description: ID único del usuario
+ *           description: ID único del blog
  *         name:
  *           type: string
- *           description: Nombre del usuario
- *         email:
+ *           description: Nombre del blog
+ *         description:
  *           type: string
- *           format: email
- *           description: Correo electrónico del usuario
- *         identification:
+ *           description: Descripcion del blog
+ *         text:
  *           type: string
- *           description: Número de identificación del usuario
- *         phone:
- *           type: string
- *           description: Número de teléfono del usuario
- *         user_type:
- *           type: string
- *           description: Tipo de usuario
- *           nullable: true
+ *           description: Texto del blog
  * 
  *     CreateUserDto:
  *       type: object
  *       required:
  *         - id
  *         - name
- *         - email
- *         - identification
- *         - phone
+ *         - description
+ *         - text
  *         - account_id
  *       properties:
  *         id:
  *           type: string
- *           description: ID único del usuario
+ *           description: ID único del blog
  *         name:
  *           type: string
- *           description: Nombre del usuario
- *         email:
+ *           description: Nombre del blog
+ *         description:
  *           type: string
- *           format: email
- *           description: Correo electrónico del usuario
- *         identification:
+ *           description: Descripcion del blog
+ *         text:
  *           type: string
- *           description: Número de identificación del usuario
- *         phone:
- *           type: string
- *           description: Número de teléfono del usuario
- *         user_type:
- *           type: string
- *           description: Tipo de usuario
- *           nullable: true
+ *           description: Texto del blog
  *         account_id:
  *           type: integer
  *           description: ID único de la cuenta
@@ -91,23 +73,23 @@ export interface IBlogsResponse<t> {
  *       properties:
  *         id:
  *           type: string
- *           description: ID único del usuario
+ *           description: ID único del blog
  *         name:
  *           type: string
- *           description: Nombre del usuario
+ *           description: Nombre del blog
  *         email:
  *           type: string
  *           format: email
- *           description: Correo electrónico del usuario
+ *           description: Correo electrónico del blog
  *         identification:
  *           type: string
- *           description: Número de identificación del usuario
+ *           description: Número de identificación del blog
  *         phone:
  *           type: string
- *           description: Número de teléfono del usuario
+ *           description: Número de teléfono del blog
  *         user_type:
  *           type: string
- *           description: Tipo de usuario
+ *           description: Tipo de blog
  *           nullable: true
  *         
  * 
@@ -121,20 +103,20 @@ export interface IBlogsResponse<t> {
  *       properties:
  *         name:
  *           type: string
- *           description: Nombre del usuario
+ *           description: Nombre del blog
  *         email:
  *           type: string
  *           format: email
- *           description: Correo electrónico del usuario
+ *           description: Correo electrónico del blog
  *         identification:
  *           type: string
- *           description: Número de identificación del usuario
+ *           description: Número de identificación del blog
  *         phone:
  *           type: string
- *           description: Número de teléfono del usuario
+ *           description: Número de teléfono del blog
  *         user_type:
  *           type: string
- *           description: Tipo de usuario
+ *           description: Tipo de blog
  *           nullable: true
  */
 

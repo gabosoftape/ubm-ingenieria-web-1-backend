@@ -47,7 +47,8 @@ const {
         accountMiddleware,
         userMiddleware,
         authMiddleware,
-        otpMiddleware
+        otpMiddleware,
+        blogMiddleware
     } = setupMiddlewares();
 
 // routes
@@ -58,7 +59,7 @@ app.use('/api/v1/auth', authMiddleware);
 app.use('/api/v1/sendOtp', otpMiddleware);
 
 // cliente potencial - Lead 
-
+app.use('/api/v1/blogs', checkIfAuthenticated, blogMiddleware);
 
 async function main() {
     try {
