@@ -214,10 +214,9 @@ export default function BlogsRouter(
 
 
     // delete user
-    router.delete('/delete/:user_id', async (req:Request, res: Response) => {
+    router.delete('/delete/:blog_id', async (req:Request, res: Response) => {
         try {
-            const account_id = parseInt(req.query.account_id as string);
-            const data = await deleteBlogUseCase.execute(req.params.blog_id, account_id);
+            const data = await deleteBlogUseCase.execute(req.params.blog_id);
             res.send(data);
         } catch (error) {
             res.status(500).send({
