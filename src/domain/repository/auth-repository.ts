@@ -171,14 +171,19 @@ export class AuthRepository implements IAuthRepository {
             } 
             // Crear usuario
             const user = await UserModel.create(new_data);
-      
+
             // Crear auth
             const hashedPassword = await hashPassword(new_user.password);
             await AuthEntity.create({
               password: hashedPassword,
               user_id: user.id
             });
-      
+
+            // creamos user rel basica, con account 1
+            await AccountUserRelModel.create({
+                account_id: 1,
+                user_id: user.id,
+            })
             return {
                 status: 201,
                 message: 'Usuario registrado exitosamente',
