@@ -1,4 +1,4 @@
- import {UserResponseModel} from "./user";
+import {UserResponseModel} from "./user";
 
 /**
  * @openapi
@@ -93,6 +93,22 @@ export interface RegisterUserRequest {
     password: string;
     role: string;
     phone: string;
+}
+
+export interface GoogleLoginRequest {
+    email: string;
+    google_uid: string;
+    name: string;
+    photo_url: string;
+}
+
+export interface GoogleRegisterRequest {
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
+    google_uid: string;
+    photo_url: string;
 }
 
 export interface LoginResponse {

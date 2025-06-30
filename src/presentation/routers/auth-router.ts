@@ -5,6 +5,8 @@ import {VerifyAuthTokenCaseUse} from "../../infrastructure/use-cases/auth/verify
 import jwt from "jsonwebtoken";
 import { ILoginUseCase } from "../../domain/interfaces/use-cases/auth/i-login-use-case";
 import { IRegisterUseCase } from "../../domain/interfaces/use-cases/auth/i-register-use-case";
+import { ILoginGoogleUseCase } from "../../domain/interfaces/use-cases/auth/i-login-google-use-case";
+import { IRegisterGoogleUseCase } from "../../domain/interfaces/use-cases/auth/i-register-google-use-case";
 import { RegisterUserRequest } from "../../domain/models/auth";
 import { IUpdateUserPasswordUseCase } from "../../domain/interfaces/use-cases/auth/i-update-user-password-use-case";
 
@@ -13,6 +15,8 @@ export default function AuthRouter(
     verifyAuthTokenCaseUse: VerifyAuthTokenCaseUse,
     loginUseCase: ILoginUseCase,
     registerUseCase: IRegisterUseCase,
+    loginGoogleUseCase: ILoginGoogleUseCase,
+    registerGoogleUseCase: IRegisterGoogleUseCase,
     updateUserPasswordUseCase: IUpdateUserPasswordUseCase
 ) {
     const router = express.Router();
@@ -79,6 +83,98 @@ export default function AuthRouter(
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/ErrorResponse'
+     *
+     * /api/v1/auth/login/google:
+     *   post:
+     *     summary: Iniciar sesión con Google
+     *     tags: [Auth]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - email
+     *               - google_uid
+     *               - name
+     *               - photo_url
+     *             properties:
+     *               email:
+     *                 type: string
+     *                 format: email
+     *                 description: Email del usuario de Google
+     *               google_uid:
+     *                 type: string
+     *                 description: ID único de Google del usuario
+     *               name:
+     *                 type: string
+     *                 description: Nombre del usuario
+     *               photo_url:
+     *                 type: string
+     *                 description: URL de la foto de perfil
+     *     responses:
+     *       201:
+     *         description: Login exitoso
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/LoginResponse'
+     *       404:
+     *         description: Usuario no encontrado
+     *       401:
+     *         description: Credenciales inválidas
+     *       500:
+     *         description: Error interno del servidor
+     *
+     * /api/v1/auth/register/google:
+     *   post:
+     *     summary: Registrar usuario con Google
+     *     tags: [Auth]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - name
+     *               - email
+     *               - phone
+     *               - role
+     *               - google_uid
+     *               - photo_url
+     *             properties:
+     *               name:
+     *                 type: string
+     *                 description: Nombre del usuario
+     *               email:
+     *                 type: string
+     *                 format: email
+     *                 description: Email del usuario
+     *               phone:
+     *                 type: string
+     *                 description: Teléfono del usuario
+     *               role:
+     *                 type: string
+     *                 description: Rol del usuario
+     *               google_uid:
+     *                 type: string
+     *                 description: ID único de Google del usuario
+     *               photo_url:
+     *                 type: string
+     *                 description: URL de la foto de perfil
+     *     responses:
+     *       201:
+     *         description: Registro exitoso
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/RegisterResponse'
+     *       401:
+     *         description: Email ya registrado
+     *       500:
+     *         description: Error interno del servidor
      *
      * components:
      *   securitySchemes:
@@ -208,6 +304,26 @@ export default function AuthRouter(
         }
     });
 
+    router.post('/login/google', async (req: Request, res: Response) => {
+        try {
+            console.log('Datos de login con Google enviados por el cliente:');
+            console.log(req.body);
+            const resVerify = await loginGoogleUseCase.execute(req.body);
+            if (resVerify.status === 404) {
+                res.status(404).send(resVerify);
+                return;
+            }
+            res.status(resVerify.status).send(resVerify);
+        } catch (error) {
+            console.log('Error en la autenticación con Google:');
+            console.error(error);
+            res.status(500).send({
+                message: 'internal server error',
+                error: error
+            });
+        }
+    });
+
     router.post('/register', async (req: Request, res: Response) => {
         try {
             console.log('este es le dato enviado por el cliente');
@@ -229,6 +345,26 @@ export default function AuthRouter(
             res.status(resVerify.status).send(resVerify);
         } catch (error) {
             console.log('este es el error en el registro del usuario');
+            console.error(error);
+            res.status(500).send({
+                message: 'internal server error',
+                error: error
+            });
+        }
+    });
+
+    router.post('/register/google', async (req: Request, res: Response) => {
+        try {
+            console.log('Datos de registro con Google enviados por el cliente:');
+            console.log(req.body);
+            const resVerify = await registerGoogleUseCase.execute(req.body);
+            if (resVerify.status === 404) {
+                res.status(404).send(resVerify);
+                return;
+            }
+            res.status(resVerify.status).send(resVerify);
+        } catch (error) {
+            console.log('Error en el registro con Google:');
             console.error(error);
             res.status(500).send({
                 message: 'internal server error',

@@ -1,6 +1,6 @@
 import {IAuthService} from "../../domain/interfaces/services/i-auth-service";
 
-import {LoginResponse, RegisterResponse, RegisterUserRequest, UpdatePasswordResponse, VerifyAuthTokenResponse, VerifyUserByAccountRequest, VerifyUserByAccountResponse} from "../../domain/models/auth";
+import {LoginResponse, RegisterResponse, RegisterUserRequest, UpdatePasswordResponse, VerifyAuthTokenResponse, VerifyUserByAccountRequest, VerifyUserByAccountResponse, GoogleLoginRequest, GoogleRegisterRequest} from "../../domain/models/auth";
 import {IUserToken} from "../../domain/models/user";
 import {generateTokenAuth, verifyTokenAuth} from "../../config/jsonwebtoken";
 import { AuthRepository } from "../../domain/repository/auth-repository";
@@ -108,6 +108,28 @@ export class AuthService implements IAuthService {
         }
     }
 
+    async loginWithGoogle(googleData: GoogleLoginRequest): Promise<LoginResponse> {
+        try {
+            const login = await this.authRepository.loginWithGoogle(googleData);
+            if (!login) {
+                return {
+                    status:404,
+                    message: 'User not found',
+                    token: '',
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        role: ''
+                    }
+                } as LoginResponse;
+            }
+            return login;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async register(user: RegisterUserRequest): Promise<RegisterResponse> {
         try {
             const register = await this.authRepository.register(user);
@@ -129,6 +151,29 @@ export class AuthService implements IAuthService {
             throw error;
         }
     }
+
+    async registerWithGoogle(googleData: GoogleRegisterRequest): Promise<RegisterResponse> {
+        try {
+            const register = await this.authRepository.registerWithGoogle(googleData);
+            if (!register) {
+                return {
+                    status:404,
+                    message: 'User not found',
+                    token: '',
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        role: ''
+                    }
+                } as RegisterResponse;
+            }
+            return register;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async updatePassword(userId: string, password: string): Promise<UpdatePasswordResponse>{
         try {
             const hashedPassword = await hashPassword(password);

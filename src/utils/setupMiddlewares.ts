@@ -13,6 +13,8 @@ import { GetSelfAvailableAccounts } from "../infrastructure/use-cases/account/ge
 import { UpdateAccount } from "../infrastructure/use-cases/account/update-account";
 import { LoginUseCase } from "../infrastructure/use-cases/auth/login-use-case";
 import { RegisterUseCase } from "../infrastructure/use-cases/auth/register-use-case";
+import { LoginGoogleUseCase } from "../infrastructure/use-cases/auth/login-google-use-case";
+import { RegisterGoogleUseCase } from "../infrastructure/use-cases/auth/register-google-use-case";
 import { VerifyAuthTokenCaseUse } from "../infrastructure/use-cases/auth/verify-auth-token-case-use";
 import { VerifyUserByPhone } from "../infrastructure/use-cases/auth/verify-user-by-phone";
 import { SendMessageOtpUseCase } from "../infrastructure/use-cases/otp/send-message-otp-use-case";
@@ -70,6 +72,8 @@ export function setupMiddlewares() {
         new VerifyAuthTokenCaseUse(new AuthService(authDataStorage)),
         new LoginUseCase(new AuthService(authDataStorage)),
         new RegisterUseCase(new AuthService(authDataStorage)),
+        new LoginGoogleUseCase(new AuthService(authDataStorage)),
+        new RegisterGoogleUseCase(new AuthService(authDataStorage)),
         new UpdateUserPasswordUseCase(new AuthService(authDataStorage))
     );
 

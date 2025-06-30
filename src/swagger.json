@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "UMB APP API.",
+    "title": "UMB Actividad 1 APP API.",
     "version": "1.0.1",
-    "description": "Documentación de Actividad 1 - Ingenieria de Software. API"
+    "description": "Documentación de Actividad 1 APP API"
   },
   "paths": {
     "/api/v1/accounts/create": {
@@ -330,6 +330,141 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login/google": {
+      "post": {
+        "summary": "Iniciar sesión con Google",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "google_uid",
+                  "name",
+                  "photo_url"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email del usuario de Google"
+                  },
+                  "google_uid": {
+                    "type": "string",
+                    "description": "ID único de Google del usuario"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                  },
+                  "photo_url": {
+                    "type": "string",
+                    "description": "URL de la foto de perfil"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Login exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas"
+          },
+          "404": {
+            "description": "Usuario no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register/google": {
+      "post": {
+        "summary": "Registrar usuario con Google",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "phone",
+                  "role",
+                  "google_uid",
+                  "photo_url"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email del usuario"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Teléfono del usuario"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Rol del usuario"
+                  },
+                  "google_uid": {
+                    "type": "string",
+                    "description": "ID único de Google del usuario"
+                  },
+                  "photo_url": {
+                    "type": "string",
+                    "description": "URL de la foto de perfil"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email ya registrado"
+          },
+          "500": {
+            "description": "Error interno del servidor"
           }
         }
       }
@@ -951,36 +1086,25 @@
         "required": [
           "id",
           "name",
-          "email",
-          "identification",
-          "phone"
+          "description",
+          "text"
         ],
         "properties": {
           "id": {
             "type": "string",
-            "description": "ID único del usuario"
+            "description": "ID único del blog"
           },
           "name": {
             "type": "string",
-            "description": "Nombre del usuario"
+            "description": "Nombre del blog"
           },
-          "email": {
+          "description": {
             "type": "string",
-            "format": "email",
-            "description": "Correo electrónico del usuario"
+            "description": "Descripcion del blog"
           },
-          "identification": {
+          "text": {
             "type": "string",
-            "description": "Número de identificación del usuario"
-          },
-          "phone": {
-            "type": "string",
-            "description": "Número de teléfono del usuario"
-          },
-          "user_type": {
-            "type": "string",
-            "description": "Tipo de usuario",
-            "nullable": true
+            "description": "Texto del blog"
           }
         }
       },
@@ -1003,6 +1127,18 @@
             "type": "string",
             "description": "Nombre del usuario"
           },
+          "description": {
+            "type": "string",
+            "description": "Descripcion del blog"
+          },
+          "text": {
+            "type": "string",
+            "description": "Texto del blog"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID único de la cuenta"
+          },
           "email": {
             "type": "string",
             "format": "email",
@@ -1020,10 +1156,6 @@
             "type": "string",
             "description": "Tipo de usuario",
             "nullable": true
-          },
-          "account_id": {
-            "type": "integer",
-            "description": "ID único de la cuenta"
           }
         }
       },

@@ -3,8 +3,9 @@ import UserModel, {UserAttributes} from "../../db/models/UserModel";
 import AccountUserRelModel, {AccountUserRelAttributes} from "../../db/models/AccountUserRelModel";
 import { generateTokenAuth } from "../../config/jsonwebtoken";
 import AuthEntity from "../../db/models/AuthModel";
-import { LoginResponse, RegisterUserRequest, RegisterResponse } from "../models/auth";
+import { LoginResponse, RegisterUserRequest, RegisterResponse, GoogleLoginRequest, GoogleRegisterRequest } from "../models/auth";
 import { comparePassword, hashPassword } from "../../config/BcryptPassword";
+import { v4 as uuidv4 } from 'uuid';
 
 export class AuthRepository implements IAuthRepository {
 
@@ -142,6 +143,84 @@ export class AuthRepository implements IAuthRepository {
         }
     }
 
+    async loginWithGoogle(googleData: GoogleLoginRequest): Promise<LoginResponse> {
+        try {
+            // Buscar usuario por email o google_uid
+            const user = await UserModel.findOne({ 
+                where: { 
+                    email: googleData.email 
+                } 
+            });
+
+            if (!user) {
+                return {
+                    status: 404,
+                    message: 'Usuario no encontrado. Por favor regístrate primero.',
+                    token: '',
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        role: ''
+                    }
+                }
+            }
+
+            // Verificar que el usuario tenga autenticación de Google
+            if (user.auth_provider !== 'google' && !user.google_uid) {
+                return {
+                    status: 401,
+                    message: 'Este email está registrado con contraseña. Usa el login tradicional.',
+                    token: '',
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        role: ''
+                    }
+                }
+            }
+
+            // Si el usuario existe pero no tiene google_uid, actualizarlo
+            if (!user.google_uid) {
+                await user.update({
+                    google_uid: googleData.google_uid,
+                    photo_url: googleData.photo_url,
+                    auth_provider: 'google'
+                });
+            }
+
+            const token = generateTokenAuth({
+                id: user.id,
+                email: user.email,
+                role: user.user_type || ''
+            });
+
+            return {
+                status: 201,
+                token: token,
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.user_type || ''
+                }
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                message: 'Error en el servidor: ' + error,
+                token: '',
+                user: {
+                    id: '',
+                    email: '',
+                    name: '',
+                    role: ''
+                }
+            }
+        }
+    }
+
     async register(new_user: RegisterUserRequest): Promise<RegisterResponse> {
         try {
                   
@@ -167,7 +246,8 @@ export class AuthRepository implements IAuthRepository {
                 email: new_user.email,
                 identification: '',
                 phone: new_user.phone,
-                user_type: new_user.role
+                user_type: new_user.role,
+                auth_provider: 'local'
             } 
             // Crear usuario
             const user = await UserModel.create(new_data);
@@ -206,6 +286,73 @@ export class AuthRepository implements IAuthRepository {
                 }
             }
           }
+    }
+
+    async registerWithGoogle(googleData: GoogleRegisterRequest): Promise<RegisterResponse> {
+        try {
+            // Verificar si el usuario ya existe
+            const existingUser = await UserModel.findOne({ 
+                where: { 
+                    email: googleData.email 
+                } 
+            });
+            
+            if (existingUser) {
+                return {
+                    status: 401,
+                    message: 'El email ya está registrado',
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        role: ''
+                    }
+                }
+            }
+            
+            const new_data = {
+                id: uuidv4(),
+                name: googleData.name,
+                email: googleData.email,
+                identification: '',
+                phone: googleData.phone,
+                user_type: googleData.role,
+                google_uid: googleData.google_uid,
+                photo_url: googleData.photo_url,
+                auth_provider: 'google'
+            } 
+            
+            // Crear usuario
+            const user = await UserModel.create(new_data);
+
+            // creamos user rel basica, con account 1
+            await AccountUserRelModel.create({
+                account_id: 1,
+                user_id: user.id,
+            })
+            
+            return {
+                status: 201,
+                message: 'Usuario registrado exitosamente con Google',
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.user_type || 'unknown'
+                }
+            }
+        } catch (error) {
+            return {
+                status: 500,
+                message: 'Error en el servidor: ' + error,
+                user: {
+                    id: '',
+                    email: '',
+                    name: '',
+                    role: ''
+                }
+            }
+        }
     }
 
     async updatePassword(userId: string, hashedPassword: string): Promise<boolean> {

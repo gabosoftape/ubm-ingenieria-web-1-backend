@@ -8,6 +8,9 @@ export interface UserAttributes {
     identification: string;
     phone?: string;
     user_type: string | undefined;
+    google_uid?: string;
+    photo_url?: string;
+    auth_provider?: string;
 }
 
 export interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -19,6 +22,9 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> implements
     public identification!: string;
     public phone!: string;
     public user_type!: string | undefined;
+    public google_uid!: string;
+    public photo_url!: string;
+    public auth_provider!: string;
 }
 
 UserModel.init( {
@@ -53,6 +59,22 @@ UserModel.init( {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'user'
+    },
+    google_uid: {
+        field: 'google_uid',
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    photo_url: {
+        field: 'photo_url',
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    auth_provider: {
+        field: 'auth_provider',
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'local'
     },
 }, {
     sequelize,
