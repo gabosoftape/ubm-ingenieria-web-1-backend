@@ -7,7 +7,12 @@
     "dev": "ts-node-dev src/index.ts",
     "start": "node build/src/index.js",
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=tests/unit",
+    "test:integration": "jest --testPathPattern=tests/integration",
+    "test:auth": "jest --testPathPattern=auth"
   },
   "keywords": [],
   "author": "",
