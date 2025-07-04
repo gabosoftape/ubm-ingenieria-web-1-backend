@@ -2,15 +2,13 @@ name: Build Backend on Server
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,6 +21,7 @@ jobs:
       - name: Run tests
         run: npm test
   deploy:
+    needs: test-backend
     runs-on: ubuntu-latest
 
     steps:
