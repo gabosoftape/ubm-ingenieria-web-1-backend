@@ -1,8 +1,8 @@
 import { BlogRepository } from '../../src/domain/repository/blog-repository';
 import BlogModel from '../../src/db/models/BlogModel';
-import { beforeAll, afterAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Model } from 'sequelize';
-import { CreateBlogDto, BlogResponseModel, IBlogsResponse, BlogRequestModel } from '../../src/domain/models/blog';
+import { CreateBlogDto, BlogRequestModel } from '../../src/domain/models/blog';
 import { DefaultFilterCriteria } from '../../src/domain/interfaces/common/default-filter-criteria';
 
 // Mock del modelo Blog

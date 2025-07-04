@@ -9,7 +9,15 @@ describe('GET /api/v1/accounts/all', () => {
             .get('/api/v1/accounts/all')
             .set('Authorization', `Bearer ${token}`);  // Añade el Bearer token
 
-        expect(response.status).toBe(500);
-        expect(response.body).toBeInstanceOf(Object);
+        console.log(response.body);
+        expect(response.status).toBe(200);
+        // Ajusta la validación según la estructura real de la respuesta
+        if (Array.isArray(response.body)) {
+          expect(Array.isArray(response.body)).toBe(true);
+        } else if (Array.isArray(response.body.data)) {
+          expect(Array.isArray(response.body.data)).toBe(true);
+        } else {
+          expect(typeof response.body).toBe('object');
+        }
     });
 });

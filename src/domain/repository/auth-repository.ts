@@ -275,6 +275,7 @@ export class AuthRepository implements IAuthRepository {
                 }
             }
           } catch (error) {
+            console.error(error);
             return {
                 status: 500,
                 message: 'Error en el servidor' + error ,
