@@ -20198,3 +20198,17 @@
 2025-06-30T02:48:31.217Z [info]: Request: GET /api/v1/users/all
 2025-06-30T02:50:31.340Z [info]: Request: GET /api/v1/users/all
 2025-06-30T02:50:31.383Z [info]: Request: GET /api/v1/accounts/all
+2025-06-30T04:45:04.728Z [info]: Request: POST /api/v1/auth/register/google
+2025-06-30T04:45:51.350Z [info]: Request: POST /api/v1/auth/login/google
+2025-06-30T04:45:52.514Z [info]: Request: GET /api/v1/accounts/user/d95917c9-ef0d-4645-b362-5c6619218641
+2025-06-30T04:45:52.541Z [info]: Request: GET /api/v1/accounts/user/d95917c9-ef0d-4645-b362-5c6619218641
+2025-06-30T04:45:52.585Z [info]: Request: GET /api/v1/accounts/all?account_id=1
+2025-06-30T04:45:52.604Z [info]: Request: GET /api/v1/accounts/all?account_id=1
+2025-06-30T04:46:36.371Z [info]: Request: POST /api/v1/auth/register
+2025-06-30T04:47:08.200Z [info]: Request: POST /api/v1/auth/login
+2025-06-30T04:47:16.336Z [info]: Request: GET /api/v1/accounts/user/a284b954-0770-4f2f-8d99-715706aa80de
+2025-06-30T04:47:16.351Z [info]: Request: GET /api/v1/accounts/user/a284b954-0770-4f2f-8d99-715706aa80de
+2025-06-30T04:47:16.421Z [info]: Request: GET /api/v1/accounts/all?account_id=1
+2025-06-30T04:47:16.446Z [info]: Request: GET /api/v1/accounts/all?account_id=1
+2025-06-30T04:47:32.950Z [info]: Request: GET /api/v1/users/all?account_id=0
+2025-06-30T04:47:33.092Z [info]: Request: GET /api/v1/users/all?account_id=0
